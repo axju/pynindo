@@ -35,7 +35,7 @@ Nindo.de_ is very pretty, but I find the raw data much more exciting. I looked
 through the http traffic and catches the most important API calls. Pynindo bind
 everything together and make it easy to get the different raw data.
 
-.. _Nindo.de: http://www.python.org/
+.. _Nindo.de: https://www.nindo.de/
 
 How to install?
 ---------------
