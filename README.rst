@@ -52,7 +52,7 @@ Anyway do not forget to use a virtual environment ;-)
 How to use?
 -----------
 It is really simple. Import the api from the pynindo package and then play with
-it. There is a list with all :ref:`Endpoints` below::
+it. There is a list with all Endpoints below::
 
   >>> from pynindo import api
   >>> api.charts.youtube
@@ -252,4 +252,5 @@ Create package::
 
   python -m pip install --upgrade twine
   python setup.py sdist bdist_wheel
+  twine check dist/*
   twine upload dist/*
