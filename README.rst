@@ -25,6 +25,10 @@ pynindo
    :alt: License
    :target: https://pypi.org/project/pynindo/
 
+.. image:: https://github.com/axju/pynindo/blob/master/ext/demo.gif
+   :alt: alternate text
+   :align: right
+
 The Youtuber **rezo** create a social media charts and statistics page. I developed
 this small Python API for it. It also includes a small CLI so you can write your
 own bash script or review the new media charts from the command line.
