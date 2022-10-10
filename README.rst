@@ -25,14 +25,6 @@ pynindo
    :alt: License
    :target: https://pypi.org/project/pynindo/
 
-.. image:: https://img.shields.io/jenkins/build/https/jenkins.axju.de/job/axju/job/pynindo/job/master
-   :alt: Jenkins
-   :target: https://jenkins.axju.de/job/axju/job/pynindo/
-
-.. image:: https://img.shields.io/jenkins/coverage/cobertura/https/jenkins.axju.de/job/axju/job/pynindo/job/master
-   :alt: Jenkins Coverage
-   :target: https://jenkins.axju.de/job/axju/job/pynindo/
-
 .. image:: https://github.com/axju/pynindo/blob/master/ext/demo.gif
    :alt: alternate text
    :align: right
