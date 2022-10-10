@@ -41,7 +41,7 @@ class Charts(Concisely):
         for item in self.json():
             if 'platform' in item:
                 result += '{:>10} | '.format(item['platform'])
-            result += '{:>3} {:>10} {}\n'.format(item['rank'], item['value'], item['artistName'])
+            result += '{:>3} {:>10} {}\n'.format(item['rank'], item['value'] or 0, item['artistName'])
         return result
 
     def load_data(self):
@@ -50,15 +50,15 @@ class Charts(Concisely):
     def json(self):
         super().json()
         if isinstance(self.data, str) or len(self.levels) == 2:
-            response = requests.get(self.data)
+            response = requests.get(self.data, timeout=5)
             return response.json()
         if len(self.levels) == 1:
-            response = requests.get(self.data['small'])
+            response = requests.get(self.data['small'], timeout=5)
             return response.json()
         if len(self.levels) == 0:
             result = []
             for platform, items in self.data.items():
-                response = requests.get(items['small'])
+                response = requests.get(items['small'], timeout=5)
                 for item in response.json():
                     result.append(dict(item, platform=platform))
             return result
@@ -78,7 +78,7 @@ class Viral(Concisely):
         return result
 
     def load_data(self):
-        response = requests.get(VIRAL_URL)
+        response = requests.get(VIRAL_URL, timeout=5)
         for item in response.json():
             self.data[item['platform']] = self.data.get(item['platform'], {})
             self.data[item['platform']][item['type']] = item
@@ -109,7 +109,7 @@ class Milestones(Concisely):
     def load_data(self):
         for kind, url in MILESTONES_URLS.items():
             self.data[kind] = {}
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
             for item in response.json():
                 platform = item['_channel']['platform']
                 self.data[kind][platform] = self.data[kind].get(platform, [])
@@ -148,15 +148,15 @@ class Artist:
     def __repr__(self):
         result = '{} [{}]\n'.format(self.data.get('name', 'unknown id'), len(self.data['channels']))
         for channel in self.data['channels']:
-            result += '{:>10} | {} - {}\n'.format(channel['platform'], channel['rank'], channel['name'])
+            result += '{:>10} | {} - {}\n'.format(channel.get('platform', 'error'), channel.get('rank', 'error'), channel['name'])
         return result
 
     def load_artist(self, key):
-        response = requests.get(ARTIST_URLS['id'].format(id=key))
+        response = requests.get(ARTIST_URLS['id'].format(id=key), timeout=5)
         self.data = response.json()
         self.data['channels'] = []
         for channel in self.data.get('_channels', []):
-            response = requests.get(ARTIST_URLS['channel'].format(id=channel['id'], platform=channel['platform']))
+            response = requests.get(ARTIST_URLS['channel'].format(id=channel['id'], platform=channel['platform']), timeout=5)
             channel_data = response.json()
             self.data['channels'].append(channel_data)
 
@@ -172,11 +172,11 @@ class SearchArtist:
         self.data = data or []
 
     def __repr__(self):
-        return ''.join(['[{}] {}\n'.format(len(item['_channels']), item['name']) for item in self.json()])
+        return ''.join(['[{}] {}\n'.format(len(item['avatars']), item['name']) for item in self.json()])
 
     def __getitem__(self, name):
         if len(self.data) == 0:
-            response = requests.get(ARTIST_URLS['search'].format(search=name))
+            response = requests.get(ARTIST_URLS['search'].format(search=name), timeout=5)
             data = response.json()
             return SearchArtist(data)
 
